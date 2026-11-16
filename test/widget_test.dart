@@ -1,30 +1,64 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility in the flutter_test package. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
-
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-
 import 'package:myportofolio_mobile/main.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
+  for (final label in ['Lihat Proyek', 'Tambah Proyek', 'Logout']) {
+    testWidgets('$label menampilkan SnackBar sesuai tombol', (tester) async {
+      await tester.pumpWidget(const MyApp());
+
+      await tester.tap(find.text(label));
+      await tester.pumpAndSettle();
+
+      expect(
+        find.widgetWithText(SnackBar, 'Kamu telah menekan tombol $label!'),
+        findsOneWidget,
+      );
+    });
+  }
+
+  testWidgets('Ketukan cepat menampilkan pesan tombol terakhir', (
+    tester,
+  ) async {
     await tester.pumpWidget(const MyApp());
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+    await tester.tap(find.text('Lihat Proyek'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Tambah Proyek'));
+    await tester.pump(const Duration(milliseconds: 50));
+    await tester.tap(find.text('Logout'));
+    await tester.pumpAndSettle();
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
-
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    expect(find.text('Kamu telah menekan tombol Logout!'), findsOneWidget);
+    expect(find.text('Kamu telah menekan tombol Lihat Proyek!'), findsNothing);
+    expect(find.text('Kamu telah menekan tombol Tambah Proyek!'), findsNothing);
   });
+
+  for (final size in [const Size(320, 568), const Size(640, 360)]) {
+    testWidgets('Profil dan menu dapat diakses pada layar $size', (
+      tester,
+    ) async {
+      tester.view.devicePixelRatio = 1;
+      tester.view.physicalSize = size;
+      addTearDown(tester.view.resetDevicePixelRatio);
+      addTearDown(tester.view.resetPhysicalSize);
+
+      await tester.pumpWidget(const MyApp());
+      await tester.pumpAndSettle();
+
+      expect(find.text('2506584275'), findsOneWidget);
+      expect(find.text('Rafael Darius Sagala'), findsOneWidget);
+      expect(find.text('PBP A'), findsOneWidget);
+      expect(tester.takeException(), isNull);
+
+      // Logout tetap bisa dijangkau ketika konten melebihi tinggi layar.
+      await tester.ensureVisible(find.text('Logout'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Logout'));
+      await tester.pumpAndSettle();
+
+      expect(find.text('Kamu telah menekan tombol Logout!'), findsOneWidget);
+      expect(tester.takeException(), isNull);
+    });
+  }
 }
