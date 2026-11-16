@@ -1,17 +1,16 @@
-# myportofolio_mobile
+### Tugas 7
 
-A new Flutter project.
+1. Widget tree adalah susunan widget berbentuk hierarki yang membentuk tampilan aplikasi. Parent menampung dan mengatur child melalui properti seperti `child` atau `children`. Contohnya, `Column` menjadi parent yang menyusun beberapa `InfoCard` secara vertikal, sedangkan setiap `InfoCard` membangun tampilan berisi teks identitas.
 
-## Getting Started
+2. Widget yang digunakan adalah `MyApp` untuk konfigurasi aplikasi, `MyHomePage` untuk halaman utama, `InfoCard` untuk kartu identitas, dan `ItemCard` untuk kartu aksi. `MaterialApp` mengatur tema dan halaman awal; `Scaffold` menyediakan kerangka halaman; `AppBar` menampilkan bilah judul; `Text` menampilkan tulisan; dan `Icon` menampilkan ikon. `SafeArea` menghindari area sistem; `SingleChildScrollView` memungkinkan halaman digulir; `Center` memusatkan konten; `ConstrainedBox` membatasi ukuran; dan `LayoutBuilder` menyesuaikan layout berdasarkan ruang yang tersedia. `Column` menyusun widget vertikal, `Row` menyusunnya horizontal, `Expanded` membagi ruang, `SizedBox` memberi jarak, dan `GridView.count` menyusun kisi tombol. `Card` membuat kartu berbayang; `Padding` memberi ruang di sekeliling child; `Container` membungkus konten dan memberi padding; `Material` menyediakan permukaan berwarna dan efek tinta; `InkWell` menangani ketukan; dan `SnackBar` menampilkan pesan sementara. Kode juga mengakses `Theme` untuk membaca tema dan `ScaffoldMessenger` untuk mengelola SnackBar.
 
-This project is a starting point for a Flutter application.
+3. `MaterialApp` menyediakan konfigurasi aplikasi Material, seperti judul, tema, halaman awal, dan navigasi. Widget ini biasanya diletakkan dekat akar widget tree agar konfigurasi tersebut dapat digunakan oleh halaman di bawahnya. Pada proyek ini, `MyApp` membangun `MaterialApp` dengan tema indigo dan `MyHomePage` sebagai halaman awal.
 
-A few resources to get you started if this is your first Flutter project:
+4. `StatelessWidget` tidak memiliki objek `State` untuk menyimpan perubahan data lokal, tetapi tetap bisa dibangun ulang ketika konfigurasi atau dependensinya berubah. `StatefulWidget` memiliki objek `State` untuk menyimpan data yang berubah dan dapat meminta rebuild melalui `setState`. Gunakan `StatelessWidget` untuk profil dan menu seperti pada proyek ini, sedangkan `StatefulWidget` cocok untuk penghitung atau formulir yang mengelola perubahan data lokal.
 
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
+5. `BuildContext` mewakili posisi widget dalam widget tree. Konteks diperlukan untuk mengakses ancestor dan konfigurasi yang tersedia pada posisi tersebut. Dalam `build(BuildContext context)`, proyek menggunakan `Theme.of(context)` untuk membaca warna tema dan `ScaffoldMessenger.of(context)` untuk mengelola SnackBar ketika kartu ditekan. Konteks harus berada di bawah widget penyedia yang ingin diakses.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+6. Hot reload menerapkan perubahan kode sambil mempertahankan state, sehingga cocok untuk perubahan teks, warna, atau layout. Hot reload tidak menjalankan ulang `main()` dan `initState()`. Hot restart memulai ulang aplikasi Flutter, menghapus state yang sedang berjalan, dan menjalankan inisialisasi kembali. Hot restart diperlukan untuk perubahan inisialisasi atau struktur tipe yang tidak didukung hot reload. Full restart menghentikan lalu menjalankan kembali aplikasi beserta proses build bagian platform, misalnya setelah perubahan kode Kotlin, Swift, atau plugin yang mengubah bagian native.
+
+### AI Disclosure
+--
