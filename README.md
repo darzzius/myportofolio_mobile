@@ -12,5 +12,15 @@
 
 6. Hot reload menerapkan perubahan kode sambil mempertahankan state, sehingga cocok untuk perubahan teks, warna, atau layout. Hot reload tidak menjalankan ulang `main()` dan `initState()`. Hot restart memulai ulang aplikasi Flutter, menghapus state yang sedang berjalan, dan menjalankan inisialisasi kembali. Hot restart diperlukan untuk perubahan inisialisasi atau struktur tipe yang tidak didukung hot reload. Full restart menghentikan lalu menjalankan kembali aplikasi beserta proses build bagian platform, misalnya setelah perubahan kode Kotlin, Swift, atau plugin yang mengubah bagian native.
 
+### Tugas 8
+
+1. `Navigator.push()` menambahkan rute baru di atas rute aktif, sehingga halaman sebelumnya masih bisa dibuka kembali. `Navigator.pushReplacement()` mengganti rute aktif dengan rute baru. `Navigator.pop()` menutup rute teratas untuk kembali ke rute di bawahnya. Kartu **Tambah Pendidikan** memakai `push()`. Saat **Home** dipilih dari drawer, drawer ditutup terlebih dahulu. Jika Home masih ada di tumpukan, `pop()` menutup formulir; jika formulir sebelumnya menggantikan Home, `pushReplacement()` membuka Home kembali.
+
+2. `Scaffold` menyediakan tempat untuk `AppBar`, `drawer`, dan `body` pada setiap halaman. `AppBar` menampilkan judul dan tombol menu, sementara `LeftDrawer` yang sama menyediakan tujuan navigasi di halaman utama dan kedua formulir. App bar halaman utama dan formulir pendidikan sama-sama mengambil warna latar dari `colorScheme.primary` dan warna judul serta ikon dari `colorScheme.onPrimary`.
+
+3. Formulir pendidikan memakai `Column` supaya input dan tombol **Simpan** tersusun vertikal di layar sempit. Padding 16 piksel logis memberi ruang di tepi layar dan `SizedBox` memberi jarak antarinput. `SingleChildScrollView` membuat bagian bawah, termasuk tombol **Simpan**, tetap bisa dijangkau ketika tinggi layar berkurang saat papan ketik muncul.
+
+4. `GlobalKey<FormState>` memberi tombol **Simpan** akses ke state formulir. `validate()` menjalankan `validator` pada setiap kolom dan menampilkan pesan di kolom yang belum valid. Dialog baru muncul jika semua kolom lolos. Contohnya, tahun selesai `2023` ditolak jika tahun mulai `2024`. Papan ketik angka membantu pengguna memasukkan tahun, tetapi tidak bisa memastikan format empat digit atau memeriksa urutan kedua tahun.
+
 ### AI Disclosure
 --
