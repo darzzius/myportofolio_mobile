@@ -1,4 +1,6 @@
 import 'package:material_ui/material_ui.dart';
+import 'package:myportofolio_mobile/screens/education_form.dart';
+import 'package:myportofolio_mobile/screens/project_form.dart';
 import 'package:myportofolio_mobile/widgets/left_drawer.dart';
 import 'package:myportofolio_mobile/widgets/project_card.dart';
 
@@ -11,22 +13,34 @@ class MyHomePage extends StatelessWidget {
 
   final List<ItemHomepage> items = const [
     ItemHomepage('Lihat Proyek', Icons.folder, Color(0xFF1565C0)),
-    ItemHomepage('Tambah Proyek', Icons.add_circle, Color(0xFF2E7D32)),
+    ItemHomepage(
+      'Tambah Proyek',
+      Icons.add_circle,
+      Color(0xFF2E7D32),
+      destination: ProjectFormPage(),
+    ),
+    ItemHomepage(
+      'Tambah Pendidikan',
+      Icons.school_outlined,
+      Color(0xFF4527A0),
+      destination: EducationFormPage(),
+    ),
     ItemHomepage('Logout', Icons.logout, Color(0xFFC62828)),
   ];
 
   @override
   Widget build(BuildContext context) {
+    final colors = Theme.of(context).colorScheme;
     // Scaffold menyediakan struktur visual dasar halaman (AppBar, Body, SnackBar).
     return Scaffold(
       // AppBar menampilkan bar bagian atas halaman aplikasi.
       appBar: AppBar(
         title: const Text(
           'MyPortfolio',
-          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+          style: TextStyle(fontWeight: FontWeight.bold),
         ),
-        backgroundColor: Theme.of(context).colorScheme.primary,
-        iconTheme: const IconThemeData(color: Colors.white),
+        backgroundColor: colors.primary,
+        foregroundColor: colors.onPrimary,
       ),
       drawer: const LeftDrawer(),
       body: SafeArea(
@@ -76,7 +90,7 @@ class MyHomePage extends StatelessWidget {
                         padding: EdgeInsets.zero,
                         crossAxisSpacing: 12,
                         mainAxisSpacing: 12,
-                        crossAxisCount: constraints.maxWidth < 360 ? 2 : 3,
+                        crossAxisCount: constraints.maxWidth < 600 ? 2 : 4,
                         mainAxisExtent: 136,
                         shrinkWrap: true,
                         children: items.map((item) => ItemCard(item)).toList(),
@@ -124,6 +138,7 @@ class ItemHomepage {
   final String name;
   final IconData icon;
   final Color color;
+  final Widget? destination;
 
-  const ItemHomepage(this.name, this.icon, this.color);
+  const ItemHomepage(this.name, this.icon, this.color, {this.destination});
 }
