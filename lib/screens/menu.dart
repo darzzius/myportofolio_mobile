@@ -1,8 +1,11 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:myportofolio_mobile/screens/education_form.dart';
 import 'package:myportofolio_mobile/screens/project_form.dart';
+import 'package:myportofolio_mobile/screens/project_list_screen.dart';
+import 'package:myportofolio_mobile/services/auth_state.dart';
 import 'package:myportofolio_mobile/widgets/left_drawer.dart';
 import 'package:myportofolio_mobile/widgets/project_card.dart';
+import 'package:provider/provider.dart';
 
 class MyHomePage extends StatelessWidget {
   const MyHomePage({super.key});
@@ -11,26 +14,37 @@ class MyHomePage extends StatelessWidget {
   final String nama = 'Rafael Darius Sagala';
   final String kelas = 'PBP A';
 
-  final List<ItemHomepage> items = const [
-    ItemHomepage('Lihat Proyek', Icons.folder, Color(0xFF1565C0)),
-    ItemHomepage(
-      'Tambah Proyek',
-      Icons.add_circle,
-      Color(0xFF2E7D32),
-      destination: ProjectFormPage(),
-    ),
-    ItemHomepage(
-      'Tambah Pendidikan',
-      Icons.school_outlined,
-      Color(0xFF4527A0),
-      destination: EducationFormPage(),
-    ),
-    ItemHomepage('Logout', Icons.logout, Color(0xFFC62828)),
-  ];
-
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
+    final isLoggedIn = context.watch<AuthState>().isLoggedIn;
+    final items = [
+      const ItemHomepage(
+        'Lihat Proyek',
+        Icons.folder,
+        Color(0xFF1565C0),
+        destination: ProjectListScreen(),
+      ),
+      const ItemHomepage(
+        'Tambah Proyek',
+        Icons.add_circle,
+        Color(0xFF2E7D32),
+        destination: ProjectFormPage(),
+        requiresLogin: true,
+      ),
+      const ItemHomepage(
+        'Tambah Pendidikan',
+        Icons.school_outlined,
+        Color(0xFF4527A0),
+        destination: EducationFormPage(),
+      ),
+      ItemHomepage(
+        isLoggedIn ? 'Logout' : 'Login',
+        isLoggedIn ? Icons.logout : Icons.login,
+        isLoggedIn ? const Color(0xFFC62828) : colors.primary,
+        isAuthAction: true,
+      ),
+    ];
     // Scaffold menyediakan struktur visual dasar halaman (AppBar, Body, SnackBar).
     return Scaffold(
       // AppBar menampilkan bar bagian atas halaman aplikasi.
@@ -139,6 +153,15 @@ class ItemHomepage {
   final IconData icon;
   final Color color;
   final Widget? destination;
+  final bool requiresLogin;
+  final bool isAuthAction;
 
-  const ItemHomepage(this.name, this.icon, this.color, {this.destination});
+  const ItemHomepage(
+    this.name,
+    this.icon,
+    this.color, {
+    this.destination,
+    this.requiresLogin = false,
+    this.isAuthAction = false,
+  });
 }
