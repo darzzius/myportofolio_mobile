@@ -1,5 +1,6 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:myportofolio_mobile/screens/education_form.dart';
+import 'package:myportofolio_mobile/screens/education_list_screen.dart';
 import 'package:myportofolio_mobile/screens/menu.dart';
 import 'package:myportofolio_mobile/screens/project_form.dart';
 import 'package:myportofolio_mobile/screens/project_list_screen.dart';
@@ -7,7 +8,7 @@ import 'package:myportofolio_mobile/services/auth_state.dart';
 import 'package:myportofolio_mobile/widgets/auth_guard.dart';
 import 'package:provider/provider.dart';
 
-enum DrawerPage { home, projectList, project, education }
+enum DrawerPage { home, projectList, project, educationList, education }
 
 class LeftDrawer extends StatelessWidget {
   const LeftDrawer({super.key, this.currentPage = DrawerPage.home});
@@ -18,7 +19,8 @@ class LeftDrawer extends StatelessWidget {
     final pageContext = Scaffold.of(context).context;
     final navigator = Navigator.of(pageContext);
     navigator.pop();
-    if (destination == DrawerPage.project) {
+    if (destination == DrawerPage.project ||
+        destination == DrawerPage.education) {
       final loggedIn = await ensureLoggedIn(pageContext);
       if (!loggedIn || !pageContext.mounted) return;
     }
@@ -35,6 +37,7 @@ class LeftDrawer extends StatelessWidget {
           DrawerPage.home => const MyHomePage(),
           DrawerPage.projectList => const ProjectListScreen(),
           DrawerPage.project => const ProjectFormPage(),
+          DrawerPage.educationList => const EducationListScreen(),
           DrawerPage.education => const EducationFormPage(),
         },
       ),
@@ -85,6 +88,11 @@ class LeftDrawer extends StatelessWidget {
             leading: const Icon(Icons.add_circle_outline),
             title: const Text('Add Project'),
             onTap: () => _navigate(context, DrawerPage.project),
+          ),
+          ListTile(
+            leading: const Icon(Icons.school_outlined),
+            title: const Text('View Education'),
+            onTap: () => _navigate(context, DrawerPage.educationList),
           ),
           ListTile(
             leading: const Icon(Icons.school_outlined),
