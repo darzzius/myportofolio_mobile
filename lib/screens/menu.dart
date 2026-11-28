@@ -1,5 +1,6 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:myportofolio_mobile/screens/education_form.dart';
+import 'package:myportofolio_mobile/screens/education_list_screen.dart';
 import 'package:myportofolio_mobile/screens/project_form.dart';
 import 'package:myportofolio_mobile/screens/project_list_screen.dart';
 import 'package:myportofolio_mobile/services/auth_state.dart';
@@ -33,10 +34,17 @@ class MyHomePage extends StatelessWidget {
         requiresLogin: true,
       ),
       const ItemHomepage(
+        'Lihat Pendidikan',
+        Icons.school_outlined,
+        Color(0xFF283593),
+        destination: EducationListScreen(),
+      ),
+      const ItemHomepage(
         'Tambah Pendidikan',
         Icons.school_outlined,
         Color(0xFF4527A0),
         destination: EducationFormPage(),
+        requiresLogin: true,
       ),
       ItemHomepage(
         isLoggedIn ? 'Logout' : 'Login',
@@ -104,7 +112,7 @@ class MyHomePage extends StatelessWidget {
                         padding: EdgeInsets.zero,
                         crossAxisSpacing: 12,
                         mainAxisSpacing: 12,
-                        crossAxisCount: constraints.maxWidth < 600 ? 2 : 4,
+                        crossAxisCount: constraints.maxWidth < 600 ? 2 : 5,
                         mainAxisExtent: 136,
                         shrinkWrap: true,
                         children: items.map((item) => ItemCard(item)).toList(),

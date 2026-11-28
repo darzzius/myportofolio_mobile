@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:myportofolio_mobile/config.dart';
+import 'package:myportofolio_mobile/models/education.dart';
 import 'package:myportofolio_mobile/models/project.dart';
 
 class ApiException implements Exception {
@@ -27,6 +28,32 @@ class ApiClient {
   final Uri _baseUri;
 
   Uri _uri(String path) => _baseUri.resolve('/api/v1/$path');
+
+  Future<List<Education>> getEducations() async {
+    final response = await _client
+        .get(_uri('educations/'), headers: _accept)
+        .timeout(_timeout);
+    _ensureSuccess(response);
+    final items = _decode(response) as List<dynamic>;
+    return items
+        .map((item) => Education.fromJson(item as Map<String, dynamic>))
+        .toList();
+  }
+
+  Future<Education> createEducation(
+    Education education, {
+    required String token,
+  }) async {
+    final response = await _client
+        .post(
+          _uri('educations/'),
+          headers: {..._json, 'Authorization': 'Token $token'},
+          body: jsonEncode(education.toJson()),
+        )
+        .timeout(_timeout);
+    _ensureSuccess(response);
+    return Education.fromJson(_decode(response) as Map<String, dynamic>);
+  }
 
   Future<List<Project>> getProjects() async {
     final response = await _client
